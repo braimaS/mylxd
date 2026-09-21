@@ -1,0 +1,25 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug LXD daemon",
+      "type": "go",
+      "request": "launch",
+      "mode": "debug",
+      "program": "${workspaceFolder}/lxd",
+      "args": ["--debug", "--group", "sudo"],
+      "buildFlags": "-tags=libsqlite3",
+      "asRoot": true,
+      "console": "integratedTerminal",
+      "env": {
+        "CC": "cc",
+        "CGO_CFLAGS": "-I/home/mohammed/go/deps/dqlite/include/ -I/home/mohammed/go/deps/liblxc/include/",
+        "CGO_LDFLAGS": "-L/home/mohammed/go/deps/dqlite/.libs/ -L/home/mohammed/go/deps/liblxc/lib/x86_64-linux-gnu/",
+        "CGO_LDFLAGS_ALLOW": "(-Wl,-wrap,pthread_create)|(-Wl,-z,now)",
+        "LD_LIBRARY_PATH": "/home/mohammed/go/deps/dqlite/.libs/:/home/mohammed/go/deps/liblxc/lib/x86_64-linux-gnu/",
+        "PKG_CONFIG_PATH": "/home/mohammed/go/deps/liblxc/lib/x86_64-linux-gnu/pkgconfig",
+        "LXD_DIR": "/var/lib/lxd"
+      }
+    }
+  ]
+}
