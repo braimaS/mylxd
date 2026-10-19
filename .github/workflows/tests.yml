@@ -109,14 +109,14 @@ jobs:
       #      useful feedback in the PR through github-code-scanning bot
       - id: ShellCheck
         name: Differential ShellCheck
-        uses: redhat-plumbers-in-action/differential-shellcheck@d965e66ec0b3b2f821f75c8eff9b12442d9a7d1e # v5.5.6
+        uses: redhat-plumbers-in-action/differential-shellcheck@f51c7c0d32777d00de777131d25918617a246415 # v5.5.7
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           strict-check-on-push: true
         if: github.event_name == 'pull_request' && github.repository == 'canonical/lxd'
 
       - name: Upload artifact with ShellCheck defects in SARIF format
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: Differential ShellCheck SARIF
           path: ${{ steps.ShellCheck.outputs.sarif }}
@@ -226,7 +226,7 @@ jobs:
           git diff --exit-code
 
       - name: Upload coverage data
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: coverage-unit
           path: ${{env.GOCOVERDIR}}
@@ -247,7 +247,7 @@ jobs:
           microceph-channel: ${{ env.MICROCEPH_SNAP_CHANNEL }}
 
       - name: Upload system test dependencies
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: system-test-deps
           path: |
@@ -357,7 +357,7 @@ jobs:
           microceph-channel: ${{ env.MICROCEPH_SNAP_CHANNEL }}
 
       - name: Download system test dependencies
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
           name: system-test-deps
           merge-multiple: true
@@ -497,7 +497,7 @@ jobs:
 
       - name: Upload crash dumps
         if: always()
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: crash-dumps-${{ steps.sanitize.outputs.artifact_name }}
           path: |
@@ -506,7 +506,7 @@ jobs:
           if-no-files-found: ignore
 
       - name: Upload coverage data
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: coverage-${{ steps.sanitize.outputs.artifact_name }}
           path: ${{ env.GOCOVERDIR }}
@@ -671,7 +671,7 @@ jobs:
         if: env.GOCOVERAGE == 'true'
 
       - name: Download coverage data
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
           pattern: coverage-*
           path: ${{env.GOCOVERDIR}}
@@ -684,7 +684,7 @@ jobs:
           export-env: true
 
       - name: Download system test dependencies
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
           name: system-test-deps
           merge-multiple: true
@@ -717,7 +717,7 @@ jobs:
           gocov-xml < "${GOCOVERDIR}"/coverage.json > "${GOCOVERDIR}"/coverage-go.xml
 
       - name: Run TICS
-        uses: tiobe/tics-github-action@333078bc527399e5916a166bd1a3a788be5a01a9 # v3.12.0
+        uses: tiobe/tics-github-action@06afa6781ba53ab58efbe766d41d84febad1f683 # v4.0.0
         with:
           mode: qserver
           project: LXD
@@ -832,7 +832,7 @@ jobs:
           go test -mod=readonly -v ./shared/... ${COVER}
 
       - name: Upload coverage data
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: coverage-clients-${{ runner.os }}
           path: ${{env.GOCOVERDIR}}
@@ -840,7 +840,7 @@ jobs:
         if: env.GOCOVERDIR != '' && github.repository == 'canonical/lxd'
 
       - name: Upload lxc client artifacts
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         if: ${{ github.event_name == 'push' }}
         continue-on-error: true
         with:
@@ -889,7 +889,7 @@ jobs:
           go install github.com/b-dean/gocov-xml@v1.2.1-bdd.0 # XXX: Using this repo is a temporary workaround until https://github.com/AlekSi/gocov-xml/pull/20 is merged. See https://github.com/AlekSi/gocov-xml/pull/20#issuecomment-3275134132 for more details.
 
       - name: Download coverage data
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
           pattern: coverage-*
           path: ${{env.GOCOVERDIR}}
@@ -906,7 +906,7 @@ jobs:
           gocov-xml < "${GOCOVERDIR}"/coverage.json > "${GOCOVERDIR}"/coverage-go.xml
 
       - name: Upload code coverage
-        uses: actions/upload-code-coverage@d8e329117199404bba6fc81efe8093dc7c015e34 # v1.4.2
+        uses: actions/upload-code-coverage@2b21a77928be8d5168c2b9581a67f2adbebacc52 # v1.4.4
         with:
           file: ${{env.GOCOVERDIR}}/coverage-go.xml
           language: Go
@@ -954,7 +954,7 @@ jobs:
           cd lxd-ui
           dotrun install
 
-      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         # zizmor: ignore[cache-poisoning]
         with:
           node-version: 22
@@ -977,7 +977,7 @@ jobs:
           export-env: true
 
       - name: Download system test dependencies
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
           name: system-test-deps
           merge-multiple: true
@@ -998,7 +998,7 @@ jobs:
           chmod uog+x /home/runner/go/bin/*
 
       - name: Download docs (for the objects.inv.txt file to be available for the e2e tests)
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
           name: documentation
           merge-multiple: true
@@ -1090,7 +1090,7 @@ jobs:
           npx playwright test --project "chromium:lxd-${TARGET:-latest-edge}:unclustered"
 
       - name: Upload lxd-ui test artifacts
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         if: always()
         with:
           name: lxd-ui-test-report
@@ -1104,7 +1104,7 @@ jobs:
           sudo --preserve-env=PATH,GOPATH,GOCOVERDIR,LD_LIBRARY_PATH $(go env GOPATH)/bin/lxd shutdown
 
       - name: Upload coverage data
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: coverage-ui-e2e-tests
           path: ${{env.GOCOVERDIR}}
@@ -1162,7 +1162,7 @@ jobs:
 
       - name: Upload documentation artifacts
         if: always()
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: documentation
           path: doc/_build
@@ -1199,7 +1199,7 @@ jobs:
         run: make client
 
       - name: Download built docs
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
           name: documentation
           merge-multiple: true
